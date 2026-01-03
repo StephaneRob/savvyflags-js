@@ -63,8 +63,10 @@ class SavvyFlagsClient {
 
   _streamUpdates() {
     const eventSource = new EventSource(`${this.url}/stream`)
-    eventSource.onmessage = () => {
-      this._fetchFlags()
+    eventSource.onmessage = (event: MessageEvent) => {
+      if (event.data === 'refresh') {
+        this._fetchFlags()
+      }
     }
   }
 
